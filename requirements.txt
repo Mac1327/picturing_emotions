@@ -10,7 +10,7 @@ pandas
 scikit-learn
 tensorflow
 mtcnn
-cv2
+
 
 # tests/linter
 black
