@@ -1,4 +1,4 @@
-from cv2 import imread
+#from cv2 import imread
 from mtcnn.mtcnn import MTCNN
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Circle
@@ -9,7 +9,7 @@ class DetectFace:
         self.img = img
 
 
-    def detect(self, img):
+    def detect(self):
         '''
         Returns results
         It's a list of all different detected faces
@@ -31,7 +31,7 @@ class DetectFace:
         picture = plt.imread(self.img)
         plt.imshow(picture)
 
-        results = self.detect(self.img)
+        results = self.detect()
 
         ax = plt.gca()
         for result in results:
@@ -52,7 +52,7 @@ class DetectFace:
     def get_faces(self, save=False):
     
         picture = plt.imread(self.img)
-        results = self.detect(self.img)
+        results = self.detect()
 
         faces = []
         for i in range(len(results)):
