@@ -29,4 +29,5 @@ def predict_faces(input_list):
 
     for face_number in len(range(predictions)):
         dict_of_predictions[face_number] = predictions[face_number]
+        
     return dict_of_predictions
