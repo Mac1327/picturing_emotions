@@ -130,4 +130,4 @@ gcp_submit_training:
 #            API
 # ----------------------------------
 run_api:
-	uvicorn picturing_emotions.api.api:app --reload
+	uvicorn api.api:app --reload
