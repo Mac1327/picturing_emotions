@@ -124,3 +124,10 @@ gcp_submit_training:
 		--runtime-version=${RUNTIME_VERSION} \
 		--region ${REGION} \
 		--stream-logs
+
+
+# ----------------------------------
+#            API
+# ----------------------------------
+run_api:
+	uvicorn picturing_emotions.api.api:app --reload
