@@ -2,6 +2,8 @@
 from mtcnn.mtcnn import MTCNN
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Circle
+import numpy as np
+import tensorflow as tf
 
 class DetectFace:
 
@@ -68,9 +70,10 @@ class DetectFace:
             plt.axis('off')
             plt.imshow(face)
 
-            faces.append(face)
+            faces.append(np.expand_dims(tf.image.resize(face, [224, 224]),axis=0)/255.0)
 
         plt.show()
+
 
         if save:    
             return faces
