@@ -51,7 +51,8 @@ count_lines:
 #            GCP
 # ----------------------------------
 # path of the file to upload to gcp (the path of the file should be absolute or should match the directory where the make command is run)
-LOCAL_PATH=raw_data/data_3000_compressed.zip
+DATA_PATH=raw_data/data_3000_compressed.zip
+MODEL_PATH=raw_data/vg_face_model.zip
 
 # project id
 PROJECT_ID=picturingemotions
@@ -60,11 +61,13 @@ PROJECT_ID=picturingemotions
 BUCKET_NAME=emotionsbucket
 
 # bucket directory in which to store the uploaded file (we choose to name this data as a convention)
-BUCKET_FOLDER=data
+DATA_BUCKET_FOLDER=data
+MODEL_BUCKETFOLDER=model
 
 # name for the uploaded file inside the bucket folder (here we choose to keep the name of the uploaded file)
 # BUCKET_FILE_NAME=another_file_name_if_I_so_desire.csv
-BUCKET_FILE_NAME=$(shell basename ${LOCAL_PATH})
+DATA_BUCKET_FILE_NAME=$(shell basename ${DATA_PATH})
+MODEL_BUCKET_FILE_NAME=$(shell basename ${MODEL_PATH})
 
 REGION=europe-west1
 
@@ -75,7 +78,10 @@ create_bucket:
 	-@gsutil mb -l ${REGION} -p ${PROJECT_ID} gs://${BUCKET_NAME}
 
 upload_data:
-	-@gsutil cp ${LOCAL_PATH} gs://${BUCKET_NAME}/${BUCKET_FOLDER}/${BUCKET_FILE_NAME}
+	-@gsutil cp ${DATA_PATH} gs://${BUCKET_NAME}/${DATA_BUCKET_FOLDER}/${DATA_BUCKET_FILE_NAME}
+
+upload_model:
+	-@gsutil cp ${MODEL_PATH} gs://${BUCKET_NAME}/${MODEL_BUCKETFOLDER}/${MODEL_BUCKET_FILE_NAME}
 
 # ----------------------------------
 #            GCP Online Training
@@ -99,7 +105,7 @@ RUNTIME_VERSION=1.15
 ##### Package params  - - - - - - - - - - - - - - - - - - -
 
 PACKAGE_NAME=picturing_emotions
-FILENAME=job
+FILENAME=predict
 
 ##### Job - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -118,10 +124,3 @@ gcp_submit_training:
 		--runtime-version=${RUNTIME_VERSION} \
 		--region ${REGION} \
 		--stream-logs
-
-clean:
-	@rm -f */version.txt
-	@rm -f .coverage
-	@rm -fr */__pycache__ __pycache__
-	@rm -fr build dist *.dist-info *.egg-info
-	@rm -fr */*.pyc
