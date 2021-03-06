@@ -127,7 +127,14 @@ gcp_submit_training:
 
 
 # ----------------------------------
-#            API
+#            uvicorn
 # ----------------------------------
 run_api:
 	uvicorn api.api:app --reload
+
+# ----------------------------------
+#            uvicorn
+# ----------------------------------
+
+streamlit:
+	-@streamlit run app.py  --server.port 8080
