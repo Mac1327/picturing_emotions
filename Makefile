@@ -138,3 +138,18 @@ run_api:
 
 streamlit:
 	-@streamlit run app.py  --server.port 8080
+
+# ----------------------------------
+#            uvicorn
+# ----------------------------------
+
+DOCKER_IMAGE_NAME=emotions
+
+docker_build:
+	docker build -t eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} . 
+
+docker_run:
+	docker run -p 8080:8080 eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME}
+
+docker_push:
+	docker push eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME}

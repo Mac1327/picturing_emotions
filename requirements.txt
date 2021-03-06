@@ -10,7 +10,8 @@ pandas
 scikit-learn
 tensorflow
 mtcnn
-
+matplotlib
+opencv-python
 
 # tests/linter
 black
@@ -34,5 +35,3 @@ joblib
 memoized-property
 termcolor
 imageio
-shutil
-random
