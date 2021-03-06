@@ -33,3 +33,5 @@ joblib
 memoized-property
 termcolor
 imageio
+shutil
+random
