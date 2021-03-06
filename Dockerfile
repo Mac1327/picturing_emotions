@@ -6,6 +6,8 @@ COPY raw_data/vg_face_model /raw_data/vg_face_model
 COPY requirements.txt /requirements.txt
 
 RUN pip install -r requirements.txt
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
 RUN python -m pip install opencv-contrib-python
 
 CMD streamlit run app.py  --server.port 8080

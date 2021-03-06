@@ -127,20 +127,20 @@ gcp_submit_training:
 
 
 # ----------------------------------
-#            uvicorn
+#            Uvicorn
 # ----------------------------------
 run_api:
 	uvicorn api.api:app --reload
 
 # ----------------------------------
-#            uvicorn
+#            Streamlit
 # ----------------------------------
 
 streamlit:
 	-@streamlit run app.py  --server.port 8080
 
 # ----------------------------------
-#            uvicorn
+#            Docker Image
 # ----------------------------------
 
 DOCKER_IMAGE_NAME=emotions
@@ -153,3 +153,5 @@ docker_run:
 
 docker_push:
 	docker push eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME}
+gc_deploy:
+	gcloud run deploy --image eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} --platform managed --region europe-west1
