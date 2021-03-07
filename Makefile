@@ -143,7 +143,7 @@ streamlit:
 #            Docker Image
 # ----------------------------------
 
-DOCKER_IMAGE_NAME=emotions
+DOCKER_IMAGE_NAME=emotions02
 
 docker_build:
 	docker build -t eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} . 
@@ -153,5 +153,6 @@ docker_run:
 
 docker_push:
 	docker push eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME}
+	
 gc_deploy:
 	gcloud run deploy --image eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} --platform managed --region europe-west1 --cpu=4 --memory=4Gi

@@ -28,6 +28,7 @@ s3fs
 fastapi
 uvicorn
 streamlit
+streamlit-webrtc
 
 # utilities
 six>=1.14
