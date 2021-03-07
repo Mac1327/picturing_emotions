@@ -136,8 +136,11 @@ run_api:
 #            Streamlit
 # ----------------------------------
 
-streamlit:
+streamlit_app:
 	-@streamlit run app.py  --server.port 8080
+
+streamlit_image:
+	-@streamlit run app_image.py  --server.port 8080
 
 # ----------------------------------
 #            Docker Image
@@ -153,6 +156,6 @@ docker_run:
 
 docker_push:
 	docker push eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME}
-	
+
 gc_deploy:
 	gcloud run deploy --image eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} --platform managed --region europe-west1 --cpu=4 --memory=4Gi
