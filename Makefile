@@ -127,7 +127,35 @@ gcp_submit_training:
 
 
 # ----------------------------------
-#            API
+#            Uvicorn
 # ----------------------------------
 run_api:
 	uvicorn api.api:app --reload
+
+# ----------------------------------
+#            Streamlit
+# ----------------------------------
+
+streamlit_app:
+	-@streamlit run app.py  --server.port 8080
+
+streamlit_image:
+	-@streamlit run app_image.py  --server.port 8080
+
+# ----------------------------------
+#            Docker Image
+# ----------------------------------
+
+DOCKER_IMAGE_NAME=emotions02
+
+docker_build:
+	docker build -t eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} . 
+
+docker_run:
+	docker run -p 8080:8080 eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME}
+
+docker_push:
+	docker push eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME}
+
+gc_deploy:
+	gcloud run deploy --image eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} --platform managed --region europe-west1 --cpu=4 --memory=4Gi

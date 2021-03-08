@@ -10,7 +10,8 @@ pandas
 scikit-learn
 tensorflow
 mtcnn
-
+matplotlib
+opencv-python
 
 # tests/linter
 black
@@ -26,6 +27,8 @@ mlflow
 s3fs
 fastapi
 uvicorn
+streamlit
+streamlit-webrtc
 
 # utilities
 six>=1.14

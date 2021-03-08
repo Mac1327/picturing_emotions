@@ -57,6 +57,7 @@ class DetectFace:
         results = self.detect()
 
         faces = []
+        X1, X2, Y1, Y2 = [],[],[],[] #<<<< added this to be abel get the location of all the boxes
         for i in range(len(results)):
             # get coordinates
             x1, y1, width, height = results[i]['box']
@@ -65,17 +66,21 @@ class DetectFace:
             face = picture[y1:y2, x1:x2]
             # define subplot
             # why not add the original lable??
-            # why not add predicted lable as well??
-            plt.subplot(1, len(results), i+1)
-            plt.axis('off')
-            plt.imshow(face)
+            # why not add predicted lable as well?? 
+            #plt.subplot(1, len(results), i+1) <<<<<< I commented these lines out to only get the images and not plot it
+            #plt.axis('off') <<<<<
+            #plt.imshow(face) <<<<<<
+            X1.append(x1)
+            X2.append(x2)
+            Y1.append(y1)
+            Y2.append(y2)
 
             faces.append(np.expand_dims(tf.image.resize(face, [224, 224]),axis=0)/255.0)
 
-        plt.show()
+        #plt.show() <<<<<<
 
 
         if save:    
-            return faces
+            return faces, X1, X2, Y1, Y2
 
       
