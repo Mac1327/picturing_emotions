@@ -158,4 +158,4 @@ docker_push:
 	docker push eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME}
 
 gc_deploy:
-	gcloud run deploy --image eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} --platform managed --region europe-west1 --cpu=4 --memory=4Gi
+	gcloud run deploy --image eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} --platform managed --region europe-west1 --cpu 4 --memory 4Gi
