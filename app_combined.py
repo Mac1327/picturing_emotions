@@ -31,6 +31,11 @@ classes = ['surprise',
 
 model = keras.models.load_model("raw_data/vg_face_model")
 
+st.sidebar.markdown(f"""
+    # Picturing Emotions
+    """)
+
+
 
 image = Image.open('02.png')
 st.image(image, caption=' ', use_column_width=False)
