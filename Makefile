@@ -141,6 +141,8 @@ streamlit_app:
 
 streamlit_image:
 	-@streamlit run app_image.py  --server.port 8080
+streamlit_combined:
+	-@streamlit run app_combined.py  --server.port 8080
 
 # ----------------------------------
 #            Docker Image

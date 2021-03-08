@@ -92,7 +92,7 @@ if uploaded_file is not None:
         pred3       = pred[top_values[0]]
         
 
-        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255), 10)
+        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255), 5)
         cv2.putText(image, f"1: {prediction1}:{round(pred1*100)}%", (x1, y2+30), 
                                                     cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
         cv2.putText(image, f"2: {prediction2}:{round(pred2*100)}%", (x1, y2+60), 
