@@ -51,7 +51,7 @@ class DetectFace:
                     ax.add_patch(dot)
         plt.show()
 
-    def get_faces(self, save=False):
+    def get_faces(self, save=True):
     
         picture = plt.imread(self.img)
         results = self.detect()
@@ -68,13 +68,14 @@ class DetectFace:
             # why not add the original lable??
             # why not add predicted lable as well?? 
             #plt.subplot(1, len(results), i+1) <<<<<< I commented these lines out to only get the images and not plot it
-            #plt.axis('off') <<<<<
-            #plt.imshow(face) <<<<<<
+            #plt.axis('off')  <<<<<
+            #plt.imshow(face)  <<<<<<
             X1.append(x1)
             X2.append(x2)
             Y1.append(y1)
             Y2.append(y2)
 
+            #faces.append(face)
             faces.append(np.expand_dims(tf.image.resize(face, [224, 224]),axis=0)/255.0)
 
         #plt.show() <<<<<<
