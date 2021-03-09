@@ -20,7 +20,7 @@ WEBRTC_CLIENT_SETTINGS = ClientSettings(
     rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
     media_stream_constraints={"video": True, "audio": False},
 )
-
+#classes used for predcictions
 classes = ['surprise',
             "fear",
             "disgust",
@@ -29,17 +29,23 @@ classes = ['surprise',
             "sadness",
             "happiness"]
 
+#import model
 model = keras.models.load_model("raw_data/vg_face_model")
 
+#face detector for photos only 
+detector = MTCNN()
+
+#creat sidebar
 st.sidebar.markdown(f"""
     # Picturing Emotions
     """)
 
 
-
+#logo at top of page
 image = Image.open('02.png')
 st.image(image, caption=' ', use_column_width=False)
 
+#set background colour
 st.markdown("""
 <style>
 body {
@@ -49,6 +55,7 @@ body {
 </style>
     """, unsafe_allow_html=True)
 
+#description text
 HTML1 = f"""
 <hr>
 <h4 style="text-align: left;"><span style="font-family: Helvetica; color: rgb(255, 255, 255);">Add text later.</span></h2>
@@ -71,11 +78,9 @@ HTML2 = f"""
 """
 st.write(HTML2, unsafe_allow_html=True)
 
-
-
+#get user photo input
 uploaded_file = st.file_uploader("Choose a photo")
 
-detector = MTCNN()
 
 if uploaded_file is not None:
     image = plt.imread(uploaded_file)
@@ -123,9 +128,6 @@ if uploaded_file is not None:
     plt.axis('off') 
     ax.imshow(image)
     st.pyplot(fig) 
-    #st.write(pred)
-
-
 
     to_pick = []  
     for i in range(len(face_locations)):
@@ -143,12 +145,12 @@ if uploaded_file is not None:
 
 
     
-
-
-
 HTML3 = f"""
 <h2 style="text-align: left;"><span style="font-family: Helvetica; color: rgb(255, 255, 255);">Press START below to capture live emotions.</span></h2>
 """
+
+#load the face detector xml
+haar_cascade = cv2.CascadeClassifier("haar_face.xml")
 
 st.write(HTML3, unsafe_allow_html=True)
 
@@ -159,16 +161,19 @@ class VideoTransformer(VideoTransformerBase):
         frame = frame.to_ndarray(format="bgr24")
 
         #locate all faces in the array image 
-        face_locations = detector.detect_faces(frame)
+        faces_box = haar_cascade.detectMultiScale(frame, scaleFactor=1.1, minNeighbors=11)
 
-        for face in range(len(face_locations)):
-            #get location on box in the correct format for cv2
-            x1, y1, width, height =face_locations[face]["box"]
-            x2, y2 = x1 + width, y1 + height
-
-            #select only the face from the image and predict emotions with the imported model
-            cropped = frame[y1:y2, x1:x2]
-            pred = model.predict(np.expand_dims(resize(cropped, [224, 224]),axis=0)/255.0)[0]
+        for (x1,y1,w,h) in faces_box:
+            #creat box locations 
+            x2, y2 = x1 + w, y1 + h
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0,255,255), thickness=2)      
+            
+            #crop the face from the image and transform to correct model inpuit (1,224,244,3).
+            # Must divide by 225.0
+            cropped = cv2.resize(frame[y1:y2, x1:x2], dsize=(224, 224), interpolation=cv2.INTER_CUBIC) /255.0
+            
+            #make prediciton with model
+            pred = model.predict(np.expand_dims(cropped,axis=0))[0]
 
             #get the top 3 vlause and their class name
             top_values = pred.argsort()[-3:]
@@ -187,8 +192,6 @@ class VideoTransformer(VideoTransformerBase):
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (36,255,12), 1)
             cv2.putText(frame, f"3: {prediction3}:    {round(pred3*100)}%", (x1, y1-10), 
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (36,255,12), 1)
-            #draw the box around the detected face
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
         #retunr the image with all boxes and predictions on top 
         return frame
 
