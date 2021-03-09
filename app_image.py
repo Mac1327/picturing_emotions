@@ -1,5 +1,4 @@
 import streamlit as st
-from picturing_emotions.face_detector import DetectFace
 import numpy as np
 from tensorflow import keras
 from tensorflow.image import resize
@@ -10,7 +9,8 @@ from streamlit_webrtc import (
     WebRtcMode,
     webrtc_streamer,
 )
-from mtcnn import MTCNN
+
+
 
 #settings for webrtc to stop audio
 WEBRTC_CLIENT_SETTINGS = ClientSettings(
@@ -28,8 +28,10 @@ classes = ['surprise',
 
 #load the trained emtiondetector model
 model = keras.models.load_model("raw_data/vg_face_model")
-#load the face detector
-detector = MTCNN()
+#load the face detector xml
+haar_cascade = cv2.CascadeClassifier("haar_face.xml")
+
+
 
 st.markdown('''
 # Picturing Emotions
@@ -41,18 +43,19 @@ class VideoTransformer(VideoTransformerBase):
     def transform(self, frame):
         #convert mesh to array using bgr as this works best with cv2
         frame = frame.to_ndarray(format="bgr24")
-
+        
         #locate all faces in the array image 
-        face_locations = detector.detect_faces(frame)
+        faces_box = haar_cascade.detectMultiScale(frame, scaleFactor=1.1, minNeighbors=11)
 
-        for face in range(len(face_locations)):
-            #get location on box in the correct format for cv2
-            x1, y1, width, height =face_locations[face]["box"]
-            x2, y2 = x1 + width, y1 + height
-
+        for (x1,y1,w,h) in faces_box:
+            x2, y2 = x1 + w, y1 + h
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0,255,255), thickness=2)      
+            
             #select only the face from the image and predict emotions with the imported model
-            cropped = frame[y1:y2, x1:x2]
-            pred = model.predict(np.expand_dims(resize(cropped, [224, 224]),axis=0)/255.0)[0]
+            cropped = cv2.resize(frame[y1:y2, x1:x2], dsize=(224, 224), interpolation=cv2.INTER_CUBIC) /255.0
+            
+            #make prediciton with model
+            pred = model.predict(np.expand_dims(cropped,axis=0))[0]
 
             #get the top 3 vlause and their class name
             top_values = pred.argsort()[-3:]
@@ -71,8 +74,6 @@ class VideoTransformer(VideoTransformerBase):
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (36,255,12), 1)
             cv2.putText(frame, f"3: {prediction3}:    {round(pred3*100)}%", (x1, y1-10), 
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (36,255,12), 1)
-            #draw the box around the detected face
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
         #retunr the image with all boxes and predictions on top 
         return frame
 
