@@ -94,5 +94,9 @@ def make_dir_split_sample(location_to_make_dirs="raw_data", name_of_dir="data_32
 
 if __name__ == "__main__":
     print("test")
-    make_dir_split_sample(location_to_make_dirs="raw_data", name_of_dir="test_20", 
-                           raw_data_location=data_location,  train_size=0.9, samplesize=20)
+    raw_data_location = "raw_data/fer_ckplus_kdef"
+    location_to_make_dirs="raw_data"
+    name_of_dir= "data_3200_improved"
+    sample_size = 3200
+    make_dir_split_sample(location_to_make_dirs=location_to_make_dirs, name_of_dir=name_of_dir, 
+                           raw_data_location=raw_data_location,  train_size=0.9, samplesize=sample_size)
