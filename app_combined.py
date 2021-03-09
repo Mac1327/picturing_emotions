@@ -84,7 +84,7 @@ uploaded_file = st.file_uploader("Choose a photo")
 
 if uploaded_file is not None:
 
-    @st.cache(suppress_st_warning=True, allow_output_mutation=True)
+    #@st.cache(suppress_st_warning=True, allow_output_mutation=True)
     def upload():
 
         image = plt.imread(uploaded_file)
@@ -99,7 +99,7 @@ if uploaded_file is not None:
     image, image_origin, face_locations = upload()
     
     
-    @st.cache(suppress_st_warning=True, allow_output_mutation=True)
+    #@st.cache(suppress_st_warning=True, allow_output_mutation=True)
     def frame():
         X1, X2, Y1, Y2 = [],[],[],[]
         pred_values = {}
@@ -142,7 +142,6 @@ if uploaded_file is not None:
     plt.axis('off') 
     ax.imshow(image)
     st.pyplot(fig) 
-    #st.write(pred)
 
 
     @st.cache(suppress_st_warning=True, allow_output_mutation=True)
@@ -206,7 +205,7 @@ class VideoTransformer(VideoTransformerBase):
         for (x1,y1,w,h) in faces_box:
             #creat box locations 
             x2, y2 = x1 + w, y1 + h
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0,255,255), thickness=2)      
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0,0,255), thickness=2)      
             
             #crop the face from the image and transform to correct model inpuit (1,224,244,3).
             # Must divide by 225.0
