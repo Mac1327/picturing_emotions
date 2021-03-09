@@ -148,7 +148,7 @@ streamlit_combined:
 #            Docker Image
 # ----------------------------------
 
-DOCKER_IMAGE_NAME=emotions02
+DOCKER_IMAGE_NAME=emotions03
 
 docker_build:
 	docker build -t eu.gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_NAME} . 
