@@ -84,8 +84,8 @@ uploaded_file = st.file_uploader("Choose a photo")
 
 if uploaded_file is not None:
 
-    #@st.cache(suppress_st_warning=True, allow_output_mutation=True)
-    def upload():
+    @st.cache(suppress_st_warning=True, allow_output_mutation=True)
+    def upload_frame():
 
         image = plt.imread(uploaded_file)
         image = cv2.resize(image, dsize=(1280, 720), interpolation=cv2.INTER_CUBIC)
@@ -93,16 +93,9 @@ if uploaded_file is not None:
 
         face_locations = detector.detect_faces(image)
 
-        return image, image_origin, face_locations
-
-
-    image, image_origin, face_locations = upload()
-    
-    
-    #@st.cache(suppress_st_warning=True, allow_output_mutation=True)
-    def frame():
         X1, X2, Y1, Y2 = [],[],[],[]
         pred_values = {}
+
         for i in range(len(face_locations)):
             x1, y1, width, height =face_locations[i]["box"]
             x2, y2 = x1 + width, y1 + height
@@ -135,9 +128,10 @@ if uploaded_file is not None:
             Y1.append(y1)
             Y2.append(y2)
 
-        return image, X1, X2, Y1, Y2, pred_values
+        return image, image_origin, X1, X2, Y1, Y2, pred_values, face_locations
 
-    image, X1, X2, Y1, Y2, pred_values = frame()
+    image, image_origin, X1, X2, Y1, Y2, pred_values, face_locations = upload_frame()
+    
     fig, ax = plt.subplots(figsize=(7, 3))
     plt.axis('off') 
     ax.imshow(image)
