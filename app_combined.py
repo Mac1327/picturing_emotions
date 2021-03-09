@@ -43,7 +43,7 @@ st.image(image, caption=' ', use_column_width=False)
 st.markdown("""
 <style>
 body {
-    color: #d4d4d4;
+    color: #000000;
     background-color: #5c64f8;
 }
 </style>
@@ -80,8 +80,13 @@ detector = MTCNN()
 if uploaded_file is not None:
     image = plt.imread(uploaded_file)
     image = cv2.resize(image, dsize=(1280, 720), interpolation=cv2.INTER_CUBIC)
+    image_origin = image.copy()
+
     face_locations = detector.detect_faces(image)
-    
+
+    pred_values = {}
+    X1, X2, Y1, Y2 = [],[],[],[]
+
     for i in range(len(face_locations)):
         x1, y1, width, height =face_locations[i]["box"]
         x2, y2 = x1 + width, y1 + height
@@ -105,11 +110,40 @@ if uploaded_file is not None:
         cv2.putText(image, f"3: {prediction3}:{round(pred3*100)}%", (x1, y2+90), 
                                                     cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
 
+        pred_values[i] =  [[prediction1, round(pred1*100)],
+                           [prediction2, round(pred2*100)],
+                           [prediction3, round(pred3*100)]]
+
+        X1.append(x1)
+        X2.append(x2)
+        Y1.append(y1)
+        Y2.append(y2)
+
     fig, ax = plt.subplots(figsize=(7, 3))
     plt.axis('off') 
     ax.imshow(image)
     st.pyplot(fig) 
     #st.write(pred)
+
+
+
+    to_pick = []  
+    for i in range(len(face_locations)):
+        x1, x2, y1, y2 = X1[i], X2[i], Y1[i], Y2[i]
+        to_pick.append(image_origin[y1:y2, x1:x2])
+
+    img_num = st.slider("Which image?", 1, len(to_pick))
+  
+        
+    if img_num:
+        st.image(to_pick[img_num -1])
+        st.write('1:', pred_values[img_num -1][0][0],':',  pred_values[img_num -1][0][1],'%') 
+        st.write('2:', pred_values[img_num -1][1][0],':',  pred_values[img_num -1][1][1],'%')
+        st.write('3:', pred_values[img_num -1][2][0],':',  pred_values[img_num -1][2][1],'%') 
+
+
+    
+
 
 
 HTML3 = f"""
