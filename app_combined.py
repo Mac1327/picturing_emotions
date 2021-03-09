@@ -20,7 +20,7 @@ WEBRTC_CLIENT_SETTINGS = ClientSettings(
     rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
     media_stream_constraints={"video": True, "audio": False},
 )
-
+#classes used for predcictions
 classes = ['surprise',
             "fear",
             "disgust",
@@ -29,17 +29,23 @@ classes = ['surprise',
             "sadness",
             "happiness"]
 
+#import model
 model = keras.models.load_model("raw_data/vg_face_model")
 
+#face detector for photos only 
+detector = MTCNN()
+
+#creat sidebar
 st.sidebar.markdown(f"""
     # Picturing Emotions
     """)
 
 
-
+#logo at top of page
 image = Image.open('02.png')
 st.image(image, caption=' ', use_column_width=False)
 
+#set background colour
 st.markdown("""
 <style>
 body {
@@ -49,6 +55,7 @@ body {
 </style>
     """, unsafe_allow_html=True)
 
+#description text
 HTML1 = f"""
 <hr>
 <h4 style="text-align: left;"><span style="font-family: Helvetica; color: rgb(255, 255, 255);">Add text later.</span></h2>
@@ -71,7 +78,7 @@ HTML2 = f"""
 """
 st.write(HTML2, unsafe_allow_html=True)
 
-
+#get user photo input
 uploaded_file = st.file_uploader("Choose a photo")
 
 
@@ -121,9 +128,6 @@ if uploaded_file is not None:
     plt.axis('off') 
     ax.imshow(image)
     st.pyplot(fig) 
-    #st.write(pred)
-
-
 
     to_pick = []  
     for i in range(len(face_locations)):
@@ -141,9 +145,6 @@ if uploaded_file is not None:
 
 
     
-
-
-
 HTML3 = f"""
 <h2 style="text-align: left;"><span style="font-family: Helvetica; color: rgb(255, 255, 255);">Press START below to capture live emotions.</span></h2>
 """
@@ -173,7 +174,7 @@ class VideoTransformer(VideoTransformerBase):
             
             #make prediciton with model
             pred = model.predict(np.expand_dims(cropped,axis=0))[0]
-            
+
             #get the top 3 vlause and their class name
             top_values = pred.argsort()[-3:]
             prediction1 = classes[top_values[2]]
