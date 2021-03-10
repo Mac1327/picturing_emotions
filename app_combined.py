@@ -155,28 +155,62 @@ if uploaded_file is not None:
 
     to_pick = pick_img()
 
+    @st.cache(suppress_st_warning=True, allow_output_mutation=True)
+    def emoji(cat):
+        if cat == 'happiness':
+            happy_img = Image.open('emoji/disgust.png')
+            return happy_img
+        elif cat == 'sadness':
+            sad_img = Image.open('emoji/disgust.png')
+            return sad_img
+        elif cat == 'fear':
+            scared_img = Image.open('emoji/disgust.png') 
+            return scared_img
+        elif cat == 'disgust':
+            disgust_img = Image.open('emoji/disgust.png')
+            return disgust_img
+        elif cat == 'anger':
+            angry_img = Image.open('emoji/disgust.png')
+            return angry_img
+        elif cat == 'surprise':
+            surprise_img = Image.open('emoji/disgust.png')
+            return surprise_img
+        else:
+            neutral_img = Image.open('emoji/disgust.png')
+            return neutral_img 
+
     @st.cache(allow_output_mutation=True)
     def get_mutable():
         return {}
 
-    img_num = st.slider("Which image?", 1, len(to_pick))
-    mutable_object = get_mutable()
-    mutable_object[img_num] = [to_pick[img_num -1], pred_values[img_num -1][0][0],  pred_values[img_num -1][0][1],
+
+    if len(to_pick) > 1:
+        img_num = st.slider("Which image?", 1, len(to_pick))
+    else:
+        img_num = 1
+
+    caching_object = get_mutable()
+    caching_object[img_num] = [to_pick[img_num -1], pred_values[img_num -1][0][0],  pred_values[img_num -1][0][1],
     pred_values[img_num -1][1][0], pred_values[img_num -1][1][1], pred_values[img_num -1][2][0],
-    pred_values[img_num -1][2][1]]
+    pred_values[img_num -1][2][1], emoji(pred_values[img_num -1][0][0])]
 
         
     if img_num:
-     
-        st.image(mutable_object[img_num][0])
-        #st.image(to_pick[img_num -1])
-        #st.write('1:', pred_values[img_num -1][0][0],':',  pred_values[img_num -1][0][1],'%') 
-        #st.write('2:', pred_values[img_num -1][1][0],':',  pred_values[img_num -1][1][1],'%')
-        #st.write('3:', pred_values[img_num -1][2][0],':',  pred_values[img_num -1][2][1],'%') 
 
-        st.write('1:', mutable_object[img_num][1],':', mutable_object[img_num][2],'%') 
-        st.write('2:',  mutable_object[img_num][3],':', mutable_object[img_num][4],'%')
-        st.write('3:',  mutable_object[img_num][5],':', mutable_object[img_num][6],'%')   
+        image1 = caching_object[img_num][0]
+        image2 = caching_object[img_num][7]
+        fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(7, 3))
+        plt.axis('off')
+        ax1.axis('off')
+        fig.patch.set_facecolor('xkcd:mint green')
+        ax1.imshow(image1)
+        ax2.imshow(image2)
+        st.pyplot(fig) 
+     
+        
+        st.write('1:', caching_object[img_num][1],':', caching_object[img_num][2],'%') 
+        st.write('2:',  caching_object[img_num][3],':', caching_object[img_num][4],'%')
+        st.write('3:',  caching_object[img_num][5],':', caching_object[img_num][6],'%')   
 
   
        
