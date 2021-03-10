@@ -150,25 +150,25 @@ if uploaded_file is not None:
     @st.cache(suppress_st_warning=True, allow_output_mutation=True)
     def emoji(cat):
         if cat == 'happiness':
-            happy_img = Image.open('emoji/disgust.png')
+            happy_img = Image.open('emoji/happy.png')
             return happy_img
         elif cat == 'sadness':
-            sad_img = Image.open('emoji/disgust.png')
+            sad_img = Image.open('emoji/sad.png')
             return sad_img
         elif cat == 'fear':
-            scared_img = Image.open('emoji/disgust.png') 
+            scared_img = Image.open('emoji/scared.png') 
             return scared_img
         elif cat == 'disgust':
             disgust_img = Image.open('emoji/disgust.png')
             return disgust_img
         elif cat == 'anger':
-            angry_img = Image.open('emoji/disgust.png')
+            angry_img = Image.open('emoji/angry.png')
             return angry_img
         elif cat == 'surprise':
-            surprise_img = Image.open('emoji/disgust.png')
+            surprise_img = Image.open('emoji/surprise.png')
             return surprise_img
         else:
-            neutral_img = Image.open('emoji/disgust.png')
+            neutral_img = Image.open('emoji/neutral.png')
             return neutral_img 
 
     @st.cache(allow_output_mutation=True)
@@ -194,7 +194,7 @@ if uploaded_file is not None:
         fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(7, 3))
         plt.axis('off')
         ax1.axis('off')
-        fig.patch.set_facecolor('xkcd:mint green')
+        fig.patch.set_facecolor('#f4d160')   
         ax1.imshow(image1)
         ax2.imshow(image2)
         st.pyplot(fig) 
