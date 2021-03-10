@@ -212,8 +212,6 @@ if uploaded_file is not None:
         st.write('2:',  caching_object[img_num][3],':', caching_object[img_num][4],'%')
         st.write('3:',  caching_object[img_num][5],':', caching_object[img_num][6],'%')   
 
-  
-       
 
 
 
@@ -221,7 +219,7 @@ HTML3 = f"""
 <h2 style="text-align: left;"><span style="font-family: Helvetica; color: rgb(255, 255, 255);">Press START below to capture live emotions.</span></h2>
 """
 
-#load the face detector xml
+# load the face detector xml
 haar_cascade = cv2.CascadeClassifier("haar_face.xml")
 
 st.write(HTML3, unsafe_allow_html=True)
