@@ -37,17 +37,50 @@ st.sidebar.markdown(f"""
 
 
 
-image = Image.open('02.png')
+image = Image.open('Logo.png')
 st.image(image, caption=' ', use_column_width=False)
 
-st.markdown("""
-<style>
-body {
-    color: #000000;
-    background-color: #5c64f8;
-}
-</style>
-    """, unsafe_allow_html=True)
+# st.markdown("""
+# <style>
+# body {
+#     color: #000000;
+#     background-color: #f4d160;
+# }
+# </style>
+#     """, unsafe_allow_html=True)
+
+
+
+st.markdown(
+    f"""
+    <style>
+    .reportview-container {{
+         background-color: #f4d160;
+    }}
+   .sidebar .sidebar-content {{
+        background-color: red;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+ )
+
+
+
+### Team profile
+#st.title('Meet our team')
+greeting = f"""
+<hr>
+<h1><strong><span style="color: rgb(239, 239, 239);">Meet our team</span></strong></h1>
+<hr>
+<p><br></p>
+"""
+st.write(greeting, unsafe_allow_html=True)
+
+team = Image.open('Team.png')
+st.image(team, use_column_width=False)
+
+
 
 HTML1 = f"""
 <hr>
@@ -58,9 +91,6 @@ HTML1 = f"""
 st.write(HTML1, unsafe_allow_html=True)
 
 '''
-
-
-
 
 
 
