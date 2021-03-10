@@ -63,20 +63,12 @@ body {
 #description text
 HTML1 = f"""
 <hr>
-<h4 style="text-align: left;"><span style="font-family: Helvetica; color: rgb(255, 255, 255);">Add text later.</span></h2>
+<h2 style="text-align: left;"><span style="font-family: Helvetica; color: rgb(255, 255, 255);">Let’s learn more about how our faces look when we are feeling different emotions. You can either upload a photo or  use your live webcam.</span></h2>
 <hr>
 <p><br></p>
 """
 st.write(HTML1, unsafe_allow_html=True)
 
-'''
-
-
-
-
-
-
-'''
 
 HTML2 = f"""
 <h2 style="text-align: left;"><span style="font-family: Helvetica; color: rgb(255, 255, 255);">Please upload a photo to predict the emotions.</span></h2>
@@ -116,13 +108,13 @@ if uploaded_file is not None:
             pred3       = pred[top_values[0]]
             
 
-            cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255), 5)
+            cv2.rectangle(image, (x1, y1), (x2, y2), (105, 60, 114), 5)
             cv2.putText(image, f"1: {prediction1}:{round(pred1*100)}%", (x1, y2+30), 
-                                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
+                                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (244, 139, 41), 2)
             cv2.putText(image, f"2: {prediction2}:{round(pred2*100)}%", (x1, y2+60), 
-                                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
+                                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (105, 60, 114), 2)
             cv2.putText(image, f"3: {prediction3}:{round(pred3*100)}%", (x1, y2+90), 
-                                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
+                                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (244, 139, 41), 2)
 
             pred_values[i] =  [[prediction1, round(pred1*100)],
                             [prediction2, round(pred2*100)],
@@ -236,7 +228,7 @@ class VideoTransformer(VideoTransformerBase):
         for (x1,y1,w,h) in faces_box:
             #creat box locations 
             x2, y2 = x1 + w, y1 + h
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0,0,255), thickness=2)      
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (114, 60, 105), thickness=4)      
             
             #crop the face from the image and transform to correct model inpuit (1,224,244,3).
             # Must divide by 225.0
@@ -256,14 +248,19 @@ class VideoTransformer(VideoTransformerBase):
 
             #wirte the the top 3 predictions above each box as precitons
             # COLOURS!!! All colours are BRG not RGB   
-            cv2.putText(frame, f"1: {prediction1}:    {round(pred1*100)}%", (x1, y1-40), 
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (36,255,12), 1)
-            cv2.putText(frame, f"2: {prediction2}:    {round(pred2*100)}%", (x1, y1-25), 
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (36,255,12), 1)
+            cv2.putText(frame, f"1: {prediction1}:    {round(pred1*100)}%", (x1, y1-60), 
+                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (41, 139, 244), 2)
+            cv2.putText(frame, f"2: {prediction2}:    {round(pred2*100)}%", (x1, y1-35), 
+                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (114, 60, 105), 2)
             cv2.putText(frame, f"3: {prediction3}:    {round(pred3*100)}%", (x1, y1-10), 
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (36,255,12), 1)
+                                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (41, 139, 244), 2)
         #retunr the image with all boxes and predictions on top 
         return frame
 
 
 webrtc_streamer(key="example", video_transformer_factory=VideoTransformer, client_settings=WEBRTC_CLIENT_SETTINGS)
+
+HTML3 = f"""
+<h2 style="text-align: left;"><span style="font-family: Helvetica; color: rgb(255, 255, 255);">You can pause the video when you want by pressing the pause button or by clicking the video.</span></h2>
+"""
+st.write(HTML3, unsafe_allow_html=True)
