@@ -12,11 +12,13 @@ import matplotlib.patches as patches
 class Blaze_Detect:
 
     def __init__(self, 
-            img_path, 
+            # img_path,
+            img_arr, 
             model_weights='../blaze/blazeface.pth', 
             model_anchors='../blaze/anchors.npy', 
             img_size = 128):
-        self.img_path = img_path
+        # self.img_path = img_path
+        self.img_arr = img_arr
         self.model_weights = model_weights
         self.model_anchors = model_anchors
         self.img_size = img_size
@@ -27,8 +29,9 @@ class Blaze_Detect:
         model.load_weights(self.model_weights)
         model.load_anchors(self.model_anchors)
 
-        img =  cv2.cvtColor(cv2.imread(self.img_path), cv2.COLOR_BGR2RGB)
-        img_res = cv2.resize(img, (self.img_size, self.img_size))
+        # img =  cv2.cvtColor(cv2.imread(self.img_path), cv2.COLOR_BGR2RGB)
+        # img_res = cv2.resize(img, (self.img_size, self.img_size))
+        img_res = cv2.resize(self.img_arr, (self.img_size, self.img_size))
 
         results = model.predict_on_image(img_res)
 
@@ -37,7 +40,8 @@ class Blaze_Detect:
         return results
     
     def plot_detections(self, with_keypoints=True):
-        img =  cv2.cvtColor(cv2.imread(self.img_path), cv2.COLOR_BGR2RGB)
+        # img =  cv2.cvtColor(cv2.imread(self.img_path), cv2.COLOR_BGR2RGB)
+        img= self.img_arr
         
         fig, ax = plt.subplots(1, figsize=(10, 10))
         ax.grid(False)
@@ -74,7 +78,8 @@ class Blaze_Detect:
         plt.show()
     
     def face_crop(self):
-        img =  cv2.cvtColor(cv2.imread(self.img_path), cv2.COLOR_BGR2RGB)
+        # img =  cv2.cvtColor(cv2.imread(self.img_path), cv2.COLOR_BGR2RGB)
+        img= self.img_arr
 
         faces = []
         X1 = []
