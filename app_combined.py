@@ -40,20 +40,25 @@ st.sidebar.markdown(f"""
     # Picturing Emotions
     """)
 
-
 #logo at top of page
-image = Image.open('02.png')
-st.image(image, caption=' ', use_column_width=False)
+
+
+image = Image.open('Logo.png')
+st.image(image, caption='', use_column_width=False)
+
 
 #set background colour
 st.markdown("""
 <style>
 body {
     color: #000000;
-    background-color: #5c64f8;
+    background-color: #f4d160;
 }
 </style>
     """, unsafe_allow_html=True)
+
+
+
 
 #description text
 HTML1 = f"""
