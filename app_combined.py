@@ -248,11 +248,11 @@ class VideoTransformer(VideoTransformerBase):
 
             #wirte the the top 3 predictions above each box as precitons
             # COLOURS!!! All colours are BRG not RGB   
-            cv2.putText(frame, f"1: {prediction1}:    {round(pred1*100)}%", (x1, y1-60), 
+            cv2.putText(frame, f"1: {prediction1}: {round(pred1*100)}%", (x1, y1-60), 
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.9, (41, 139, 244), 2)
-            cv2.putText(frame, f"2: {prediction2}:    {round(pred2*100)}%", (x1, y1-35), 
+            cv2.putText(frame, f"2: {prediction2}: {round(pred2*100)}%", (x1, y1-35), 
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.9, (114, 60, 105), 2)
-            cv2.putText(frame, f"3: {prediction3}:    {round(pred3*100)}%", (x1, y1-10), 
+            cv2.putText(frame, f"3: {prediction3}: {round(pred3*100)}%", (x1, y1-10), 
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.9, (41, 139, 244), 2)
         #retunr the image with all boxes and predictions on top 
         return frame
