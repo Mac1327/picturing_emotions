@@ -30,7 +30,7 @@ classes = ['surprise',
             "happiness"]
 
 #import model
-model = keras.models.load_model("raw_data/vg_face_model")
+model = keras.models.load_model("raw_data/vg_face_model_3200_173_drop6.h5")
 
 #face detector for photos only 
 detector = MTCNN()
@@ -223,7 +223,7 @@ class VideoTransformer(VideoTransformerBase):
         frame = frame.to_ndarray(format="bgr24")
 
         #locate all faces in the array image 
-        faces_box = haar_cascade.detectMultiScale(frame, scaleFactor=1.1, minNeighbors=11)
+        faces_box = haar_cascade.detectMultiScale(frame, scaleFactor=1.1, minNeighbors=9)
 
         for (x1,y1,w,h) in faces_box:
             #creat box locations 

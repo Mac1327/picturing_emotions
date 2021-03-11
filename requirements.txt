@@ -12,6 +12,8 @@ tensorflow
 mtcnn
 matplotlib
 opencv-python
+torch
+git+https://github.com/tkat0/PyTorch_BlazeFace
 
 # tests/linter
 black
